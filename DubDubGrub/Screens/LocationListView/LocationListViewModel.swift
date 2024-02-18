@@ -24,4 +24,10 @@ final class LocationListViewModel: ObservableObject {
             }
         }
     }
+    
+    func createVoiceOverSummary(for location: DDGLocation) -> String {
+        let count = checkedInProfiles[location.id, default: []].count
+        let personPlurality = count == 1 ? "person" : "people"
+        return "\(location.name) \(count) \(personPlurality) checked in"
+    }
 }

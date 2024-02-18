@@ -47,6 +47,7 @@ struct ProfileView: View {
                         if viewModel.isCheckedIn {
                             Button {
                                 viewModel.checkOut()
+                                playHaptic()
                             } label: {
                                 Label("Check Out", systemImage: "mappin.and.ellipse")
                                     .font(.system(size: 12, weight: .semibold))
@@ -84,6 +85,7 @@ struct ProfileView: View {
 
         }
         .navigationTitle("Profile")
+        .navigationBarTitleDisplayMode(DeviceTypes.isiPhone8Standard ? .inline : .automatic)
         
         .toolbar {
             Button {
