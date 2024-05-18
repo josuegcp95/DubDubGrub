@@ -12,6 +12,10 @@ struct AlertItem: Identifiable {
     let title: Text
     let message: Text
     let dismissButton: Alert.Button
+    
+    var alert: Alert {
+        Alert(title: title, message: message, dismissButton: dismissButton)
+    }
 }
 
 struct AlertContext {
@@ -32,6 +36,15 @@ struct AlertContext {
     static let locationDisabled = AlertItem(title: Text("Location Disabled"),
                                             message: Text("Your phone's location services are disabled. Turn on location services to continue."),
                                             dismissButton: .default(Text("OK")))
+    
+    static let checkedInCount = AlertItem(title: Text("Server Error"),
+                                          message: Text("Unable to get the number of people checked into each location. Please check your internet connection and try again."),
+                                          dismissButton: .default(Text("OK")))
+    
+    //MARK: - LocationListView Errors
+    static let unableToGetAllCheckedInProfiles = AlertItem(title: Text("Invalid Phone Number"),
+                                                           message: Text("The phone number for the location is invalid.\nPlease try again."),
+                                                           dismissButton: .default(Text("OK")))
     
     //MARK: - Profile Errors
     static let invalidProfile = AlertItem(title: Text("Invalid Profile"),
@@ -76,6 +89,6 @@ struct AlertContext {
                                                 dismissButton: .default(Text("OK")))
     
     static let unableToGetCheckedInProfiles = AlertItem(title: Text("Server Error"),
-                                                message: Text("We are unable to get users checked into this location at this time.\nPlease try again."),
-                                                dismissButton: .default(Text("OK")))
+                                                        message: Text("We are unable to get users checked into this location at this time.\nPlease try again."),
+                                                        dismissButton: .default(Text("OK")))
 }

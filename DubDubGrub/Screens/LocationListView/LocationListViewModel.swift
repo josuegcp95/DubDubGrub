@@ -8,8 +8,9 @@
 import CloudKit
 
 final class LocationListViewModel: ObservableObject {
- 
+    
     @Published var checkedInProfiles: [CKRecord.ID: [DDGProfile]] = [:]
+    @Published var alertItem: AlertItem?
     
     func getCheckedInProfilesDictionary() {
         CloudKitManager.shared.getCheckedInProfilesDictionary { result in
@@ -17,9 +18,8 @@ final class LocationListViewModel: ObservableObject {
                 switch result {
                 case .success(let checkedInProfiles):
                     self.checkedInProfiles = checkedInProfiles
-                    print(checkedInProfiles)
                 case .failure(_):
-                    print("Error getting back dictionary ")
+                    self.alertItem = AlertContext.unableToGetAllCheckedInProfiles
                 }
             }
         }

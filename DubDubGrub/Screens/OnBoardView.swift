@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OnBoardView: View {
     
-    @Binding var isShowingOnboardView: Bool
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(spacing: 24) {
@@ -17,7 +17,7 @@ struct OnBoardView: View {
             HStack {
                 Spacer()
                 Button {
-                    isShowingOnboardView = false
+                    presentationMode.wrappedValue.dismiss()
                 } label: {
                     XDismissButton()
                 }
@@ -48,7 +48,7 @@ struct OnBoardView: View {
 
 struct OnBoardView_Previews: PreviewProvider {
     static var previews: some View {
-        OnBoardView(isShowingOnboardView: .constant(true))
+        OnBoardView()
     }
 }
 

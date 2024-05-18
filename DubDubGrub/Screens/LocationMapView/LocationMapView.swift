@@ -31,7 +31,6 @@ struct LocationMapView: View {
             VStack {
                 LogoView(frameWidth: 125)
                     .shadow(radius: 10)
-//                    .accessibilityHidden(true)
                 Spacer()
             }
         }
@@ -54,16 +53,12 @@ struct LocationMapView: View {
             .accentColor(.brandPrimary)
         }
         
-        .alert(item: $viewModel.alertItem, content: { alertItem in
-            Alert(title: alertItem.title,
-                  message: alertItem.message,
-                  dismissButton: alertItem.dismissButton)
-        })
+        .alert(item: $viewModel.alertItem, content: { $0.alert })
     }
 }
 
 struct LocationMapView_Previews: PreviewProvider {
     static var previews: some View {
-        LocationMapView()
+        LocationMapView().environmentObject(LocationManager())
     }
 }
