@@ -49,34 +49,23 @@ struct ProfileView: View {
                     HStack {
                         CharactersRemainView(currentCount: viewModel.bio.count)
                             .accessibilityAddTraits(.isHeader)
+                        
                         Spacer()
+                        
                         if viewModel.isCheckedIn {
                             Button {
                                 viewModel.checkOut()
                                 playHaptic()
                             } label: {
-                                Label("Check Out", systemImage: "mappin.and.ellipse")
-                                    .font(.system(size: 12, weight: .semibold))
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .frame(height: 28)
-                                    .background(Color.grubRed)
-                                    .cornerRadius(8)
+                                CheckOutButton()
                             }
                             .accessibilityLabel(Text("Check out of current location"))
                         }
                     }
     
-                    
-                    TextEditor(text: $viewModel.bio)
-                        .frame(height: 100)
-                        .overlay(RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.secondary, lineWidth: 1))
-                        .accessibilityLabel(Text("Bio, \(viewModel.bio)"))
-                        .accessibilityHint(Text("This textfield has a 100 character maximum"))
+                    BioTextEditor(text: $viewModel.bio)
                 }
                 .padding(.horizontal, 20)
-                
                 
                 Spacer()
                 
@@ -110,11 +99,7 @@ struct ProfileView: View {
             viewModel.getCheckedInStatus()
         }
         
-        .alert(item: $viewModel.alertItem, content: { alertItem in
-            Alert(title: alertItem.title,
-                  message: alertItem.message,
-                  dismissButton: alertItem.dismissButton)
-        })
+        .alert(item: $viewModel.alertItem, content: { $0.alert })
         
         .sheet(isPresented: $viewModel.isShowingPhotoPicker) {
             PhotoPicker(image: $viewModel.avatar)
@@ -164,5 +149,28 @@ struct CharactersRemainView: View {
         Text(" Characters remain")
             .font(.callout)
             .foregroundColor(.secondary)
+    }
+}
+
+struct CheckOutButton: View {
+    var body: some View {
+        Label("Check Out", systemImage: "mappin.and.ellipse")
+            .font(.system(size: 12, weight: .semibold))
+            .foregroundColor(.white)
+            .padding(10)
+            .frame(height: 28)
+            .background(Color.grubRed)
+            .cornerRadius(8)
+    }
+}
+
+struct BioTextEditor: View {
+    var text: Binding<String>
+    var body: some View {
+        TextEditor(text: text)
+            .frame(height: 100)
+            .overlay(RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.secondary, lineWidth: 1))
+            .accessibilityHint(Text("This textfield has a 100 character maximum"))
     }
 }

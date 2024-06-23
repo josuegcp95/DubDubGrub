@@ -87,7 +87,9 @@ struct LocationDetailView: View {
                                         .accessibilityLabel(Text("Show's \(profile.firstName) profile pop up."))
                                         .accessibilityLabel(Text("\(profile.firstName) \(profile.lastName)"))
                                         .onTapGesture {
-                                            viewModel.selectedProfile = profile
+                                            withAnimation {
+                                                viewModel.selectedProfile = profile
+                                            }
                                         }
                                 }
                             }
@@ -107,7 +109,6 @@ struct LocationDetailView: View {
                     .zIndex(1)
                 ProfileModalView(isShowingProfileModal: $viewModel.isShowingProfileModal, profile: viewModel.selectedProfile!)
                     .transition(.opacity.combined(with: .slide))
-                    .animation(.easeOut)
                     .zIndex(1)
             }
         }

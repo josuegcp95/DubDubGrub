@@ -11,6 +11,7 @@ import CoreLocation
 extension AppTabView {
     
     final class AppTabViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+        
         @Published var isShowingOnboardView = false
         @Published var alertItem: AlertItem?
         
