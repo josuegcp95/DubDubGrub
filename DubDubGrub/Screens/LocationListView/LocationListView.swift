@@ -13,18 +13,34 @@ struct LocationListView: View {
     @StateObject private var viewModel = LocationListViewModel()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
                 ForEach(locationManager.locations) { location in
+                    
+//                    NavigationLink(value: location) {
+//                        LocationCell(location: location, profiles: viewModel.checkedInProfiles[location.id, default: []])
+//                            .accessibilityElement(children: .ignore)
+//                            .accessibilityLabel(Text(viewModel.createVoiceOverSummary(for: location)))
+//                    }
+                    
                     NavigationLink(destination: LocationDetailView(viewModel: LocationDetailViewModel(location: location))) {
                         LocationCell(location: location, profiles: viewModel.checkedInProfiles[location.id, default: []])
                             .accessibilityElement(children: .ignore)
                             .accessibilityLabel(Text(viewModel.createVoiceOverSummary(for: location)))
                     }
+                    
                 }
             }
+
             .navigationTitle("Grub Spots")
-            .onAppear { viewModel.getCheckedInProfilesDictionary() }
+            
+//            .navigationDestination(for: DDGLocation.self, destination: { location in
+//                LocationDetailView(viewModel: LocationDetailViewModel(location: location))
+//            })
+            
+            .listStyle(.plain)
+            .task { viewModel.getCheckedInProfilesDictionary() }
+            .refreshable { viewModel.getCheckedInProfilesDictionary() }
             .alert(item: $viewModel.alertItem, content: { $0.alert })
         }
     }
